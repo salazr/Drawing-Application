@@ -1,7 +1,6 @@
 # Drawing App
   App = {}
   readline = require('readline')
-  # Canvas = require('drawille')
   PF = require('pathfinding')
   termCanvas = require('term-canvas')
 
@@ -38,7 +37,7 @@
     for p in path
       App.ctx.font = 'bold 12px sans-serif'
       App.ctx.fillText('x',p[0],p[1])
-      App.g.setWalkableAt(p[0],p[1], false);
+      App.g.setWalkableAt(p[0],p[1], false)
 
   # create cli-interface
   rl = readline.createInterface(process.stdin, process.stdout)
@@ -102,11 +101,31 @@
         App.ctx.save()
 
 
+
       when 'B'
 
         x = parseInt command[1],10
         y = parseInt command[2],10
-        c = parseInt command[3],10
+        c = command[3]
+
+        if App.g
+          # console.log App.g.nodes[]
+        else
+          App.g = new PF.Grid(App.w,App.h)
+          # console.log App.g.nodes[1]
+
+
+        for row in App.g.nodes
+          for column in row
+            # console.log App.g.isWalkableAt column.x, column.y
+            if App.g.isWalkableAt column.x, column.y
+              App.ctx.font = 'bold 12px sans-serif'
+              App.ctx.fillText(c,column.x,column.y)
+              App.g.setWalkableAt(column.x,column.y, false)
+
+        App.ctx.fillRect(10,10,10,10)
+        App.ctx.save()
+
 
       when 'Q'
         process.exit 0
