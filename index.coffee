@@ -8,7 +8,7 @@
   # helpers
   renderCanvas = ->
     # term canvas
-    console.log App.w, App.h
+    # console.log App.w, App.h
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.ctx.clear()
@@ -31,7 +31,14 @@
     App.ctx.resetState()
     console.log('\n')
     # App.ctx.resetState()
-
+  drawPath = (x1,y1,x2,y2) ->
+    App.g = App.g.clone()
+    App.f = new PF.BiBreadthFirstFinder()
+    path = App.f.findPath(x1,y1,x2,y2,App.g)
+    for p in path
+      App.ctx.font = 'bold 12px sans-serif'
+      App.ctx.fillText('x',p[0],p[1])
+      App.g.setWalkableAt(p[0],p[1], false);
 
   # create cli-interface
   rl = readline.createInterface(process.stdin, process.stdout)
@@ -55,10 +62,6 @@
 
         renderCanvas()
 
-        # App.ctx.font = 'bold 12px sans-serif'
-        # App.ctx.fillText('x',1,1)
-        # App.ctx.stroke()
-
       when 'L'
         x1 = parseInt command[1],10
         y1 = parseInt command[2],10
@@ -67,7 +70,6 @@
 
         # init path finding grid + fnider
         App.g = new PF.Grid(App.w,App.h)
-        # console.log 'grid', App.g
         App.f = new PF.BiBreadthFirstFinder()
 
         path = App.f.findPath(x1,y1,x2,y2,App.g)
@@ -87,25 +89,14 @@
         x2 = parseInt command[3],10
         y2 = parseInt command[4],10
 
+        # init path finding grid + finder
+        App.g = new PF.Grid(App.w,App.h)
 
-        if !App.g
-          # init path finding grid + fnider
-          App.g = new PF.Grid(App.w,App.h)
-          # console.log 'grid', App.g
-          App.f = new PF.BiBreadthFirstFinder()
-
-
-        path = App.f.findPath(x1,y1,x2,y2,App.g)
-
-        for p in path
-          App.ctx.font = 'bold 12px sans-serif'
-          App.ctx.fillText('x',p[0],p[1])
-
-        path = App.f.findPath(x2,y2,x1,y2,App.g)
-
-        for p in path
-          App.ctx.font = 'bold 12px sans-serif'
-          App.ctx.fillText('x',p[1],p[0])
+        # Rectangle:
+        drawPath x1,y1,x2,y1
+        drawPath x1,y1,x1,y2
+        drawPath x2,y1,x2,y2
+        drawPath x1,y2,x2,y2
 
         App.ctx.fillRect(10,10,10,10)
         App.ctx.save()
@@ -113,9 +104,9 @@
 
       when 'B'
 
-        x = parseInt(command[1],10)
-        y = parseInt(command[2],10)
-        c = parseInt(command[3],10)
+        x = parseInt command[1],10
+        y = parseInt command[2],10
+        c = parseInt command[3],10
 
       when 'Q'
         process.exit 0
