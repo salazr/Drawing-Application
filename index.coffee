@@ -29,7 +29,7 @@
     # App.ctx.fillText('x',1,1)
     # App.ctx.stroke()
     App.ctx.resetState()
-    console.log('\n\n\n\n\n')
+    console.log('\n')
     # App.ctx.resetState()
 
 
@@ -72,24 +72,44 @@
 
         path = App.f.findPath(x1,y1,x2,y2,App.g)
 
-
         for p in path
           App.ctx.font = 'bold 12px sans-serif'
           App.ctx.fillText('x',p[0],p[1])
 
         App.ctx.fillRect(10,10,10,10)
-
-
-
         App.ctx.save()
 
 
       when 'R'
 
-        x1 = parseInt(command[1],10)
-        y1 = parseInt(command[2],10)
-        x2 = parseInt(command[3],10)
-        y2 = parseInt(command[4],10)
+        x1 = parseInt command[1],10
+        y1 = parseInt command[2],10
+        x2 = parseInt command[3],10
+        y2 = parseInt command[4],10
+
+
+        if !App.g
+          # init path finding grid + fnider
+          App.g = new PF.Grid(App.w,App.h)
+          # console.log 'grid', App.g
+          App.f = new PF.BiBreadthFirstFinder()
+
+
+        path = App.f.findPath(x1,y1,x2,y2,App.g)
+
+        for p in path
+          App.ctx.font = 'bold 12px sans-serif'
+          App.ctx.fillText('x',p[0],p[1])
+
+        path = App.f.findPath(x2,y2,x1,y2,App.g)
+
+        for p in path
+          App.ctx.font = 'bold 12px sans-serif'
+          App.ctx.fillText('x',p[1],p[0])
+
+        App.ctx.fillRect(10,10,10,10)
+        App.ctx.save()
+
 
       when 'B'
 
