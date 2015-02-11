@@ -6,10 +6,16 @@
   termCanvas = require 'term-canvas'
 
   # helpers
+  handleErrors = ->
+    if !App.c
+      console.log "\n Please create a canvas first. \n"
+      return false
+
   renderCanvas = ->
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.g = new PF.Grid App.w,App.h
+
 
     App.ctx.clear()
     App.ctx.font = 'bold 12px sans-serif'
@@ -58,12 +64,14 @@
 
         App.w = parseInt command[1],10
         App.h = parseInt command[2],10
+        # adjust for borders
         App.w = App.w + 2
         App.h = App.h + 2
 
         renderCanvas()
 
       when 'L'
+
         x1 = parseInt command[1],10
         y1 = parseInt command[2],10
         x2 = parseInt command[3],10
@@ -80,11 +88,11 @@
         y1 = parseInt command[2],10
         x2 = parseInt command[3],10
         y2 = parseInt command[4],10
-        # adjust for border
+
+        # adjust for borders
         y1 += 1
         y2 += 1
 
-        # Rectangle:
         drawPath x1,y1,x2,y1
         drawPath x1,y1,x1,y2
         drawPath x2,y1,x2,y2
@@ -101,30 +109,25 @@
         x -= 1
         y -= 2
 
-        if App.g
-          # console.log App.g.nodes
-        else
-          App.g = new PF.Grid App.w,App.h
-          # console.log App.g.nodes[1]
-
-
+        # Fill reminding walkable spots
         for row in App.g.nodes
           if row[0].y > 1 && row[0].y < App.h
             for column in row
-              # console.log column
               if column.x > 1 && column.x < App.w-1
-                # console.log App.g.isWalkableAt column.x, column.y
                 if App.g.isWalkableAt column.x, column.y
-                  App.ctx.fillText c,column.x,column.y
-                  App.g.setWalkableAt column.x,column.y, false
+                  if App.g.isWalkableAt column.x-1, column.y
+                    if App.g.isWalkableAt column.x+1, column.y
+                  # for neighbor in App.g.getNeighbors column, App.f.diagonalMovement
+                  #   if neighbor.walkable is true
+                  #     if neighbor.parent && neighbor.parent.walkable is false
+                        App.ctx.fillText c,column.x,column.y
+                        # App.g.setWalkableAt column.x,column.y, false
 
         App.ctx.fillRect 10,10,10,10
         App.ctx.save()
 
-
       when 'Q'
         process.exit 0
-
 
       else
         console.log '\n `' + command[0] + '` is not a supported command. \n'
@@ -133,7 +136,6 @@
     rl.prompt()
     return
   ).on 'close', ->
-    # console.log 'Have a great day!'
     process.exit 0
     return
 
