@@ -181,4 +181,4 @@
 
         # ---
 
-   new DrawingApp
+  new DrawingApp
