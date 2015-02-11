@@ -1,19 +1,23 @@
 # Drawing App.
 
-  App = {}
   readline = require 'readline'
   PF = require 'pathfinding'
   termCanvas = require 'term-canvas'
 
   class DrawingApp
 
+    App = {}
+
     constructor: ->
       # create cli-interface
       App.rl = readline.createInterface process.stdin, process.stdout
       App.rl.setPrompt 'Enter command: '
 
-      App.rl.prompt()
-      @_parseInput()
+      args = process.argv;
+
+      if args[2] == 'prompt'
+        App.rl.prompt()
+        @_parseInput()
 
     # Helpers
     # Validate input
@@ -181,4 +185,4 @@
 
         # ---
 
-  new DrawingApp
+  module.exports = new DrawingApp

@@ -1,104 +1,17 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'start', 'prompt' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.35
-4 warn package.json drawingApp@0.0.1 No repository field.
-5 warn package.json drawingApp@0.0.1 No README data
-6 verbose readDependencies using package.json deps
-7 verbose install where, deps [ '/Users/jsalazar/Work/drawingApp',
-7 verbose install   [ 'readline', 'pathfinding', 'term-canvas', 'mocha', 'shouldjs' ] ]
-8 info preinstall drawingApp@0.0.1
-9 warn package.json readline@0.0.7 readline is also the name of a node core module.
-10 warn package.json term-canvas@0.0.5 No repository field.
-11 verbose readDependencies using package.json deps
-12 verbose already installed skipping readline@0.0.7 /Users/jsalazar/Work/drawingApp
-13 verbose already installed skipping pathfinding@0.4.16 /Users/jsalazar/Work/drawingApp
-14 verbose already installed skipping term-canvas@0.0.5 /Users/jsalazar/Work/drawingApp
-15 verbose already installed skipping mocha@2.1.0 /Users/jsalazar/Work/drawingApp
-16 verbose cache add [ 'shouldjs@5.0.0', null ]
-17 verbose cache add name=undefined spec="shouldjs@5.0.0" args=["shouldjs@5.0.0",null]
-18 verbose parsed url { protocol: null,
-18 verbose parsed url   slashes: null,
-18 verbose parsed url   auth: null,
-18 verbose parsed url   host: null,
-18 verbose parsed url   port: null,
-18 verbose parsed url   hostname: null,
-18 verbose parsed url   hash: null,
-18 verbose parsed url   search: null,
-18 verbose parsed url   query: null,
-18 verbose parsed url   pathname: 'shouldjs@5.0.0',
-18 verbose parsed url   path: 'shouldjs@5.0.0',
-18 verbose parsed url   href: 'shouldjs@5.0.0' }
-19 verbose cache add name="shouldjs" spec="5.0.0" args=["shouldjs","5.0.0"]
-20 verbose parsed url { protocol: null,
-20 verbose parsed url   slashes: null,
-20 verbose parsed url   auth: null,
-20 verbose parsed url   host: null,
-20 verbose parsed url   port: null,
-20 verbose parsed url   hostname: null,
-20 verbose parsed url   hash: null,
-20 verbose parsed url   search: null,
-20 verbose parsed url   query: null,
-20 verbose parsed url   pathname: '5.0.0',
-20 verbose parsed url   path: '5.0.0',
-20 verbose parsed url   href: '5.0.0' }
-21 verbose addNamed [ 'shouldjs', '5.0.0' ]
-22 verbose addNamed [ '5.0.0', '5.0.0' ]
-23 silly lockFile 5970ecdf-shouldjs-5-0-0 shouldjs@5.0.0
-24 verbose lock shouldjs@5.0.0 /Users/jsalazar/.npm/5970ecdf-shouldjs-5-0-0.lock
-25 verbose request where is /shouldjs
-26 verbose request registry https://registry.npmjs.org/
-27 verbose request id c49ebb8395f29bb2
-28 verbose url raw /shouldjs
-29 verbose url resolving [ 'https://registry.npmjs.org/', './shouldjs' ]
-30 verbose url resolved https://registry.npmjs.org/shouldjs
-31 verbose request where is https://registry.npmjs.org/shouldjs
-32 info trying registry request attempt 1 at 15:00:01
-33 http GET https://registry.npmjs.org/shouldjs
-34 http 404 https://registry.npmjs.org/shouldjs
-35 verbose headers { date: 'Wed, 11 Feb 2015 20:00:01 GMT',
-35 verbose headers   server: 'CouchDB/1.6.1 (Erlang OTP/R14B04)',
-35 verbose headers   'content-type': 'application/json',
-35 verbose headers   'cache-control': 'max-age=0',
-35 verbose headers   'content-length': '52',
-35 verbose headers   'accept-ranges': 'bytes',
-35 verbose headers   via: '1.1 varnish',
-35 verbose headers   age: '0',
-35 verbose headers   'x-served-by': 'cache-atl6224-ATL',
-35 verbose headers   'x-cache': 'MISS',
-35 verbose headers   'x-cache-hits': '0',
-35 verbose headers   'x-timer': 'S1423684801.004357,VS0,VE33',
-35 verbose headers   'keep-alive': 'timeout=10, max=50',
-35 verbose headers   connection: 'Keep-Alive' }
-36 silly registry.get cb [ 404,
-36 silly registry.get   { date: 'Wed, 11 Feb 2015 20:00:01 GMT',
-36 silly registry.get     server: 'CouchDB/1.6.1 (Erlang OTP/R14B04)',
-36 silly registry.get     'content-type': 'application/json',
-36 silly registry.get     'cache-control': 'max-age=0',
-36 silly registry.get     'content-length': '52',
-36 silly registry.get     'accept-ranges': 'bytes',
-36 silly registry.get     via: '1.1 varnish',
-36 silly registry.get     age: '0',
-36 silly registry.get     'x-served-by': 'cache-atl6224-ATL',
-36 silly registry.get     'x-cache': 'MISS',
-36 silly registry.get     'x-cache-hits': '0',
-36 silly registry.get     'x-timer': 'S1423684801.004357,VS0,VE33',
-36 silly registry.get     'keep-alive': 'timeout=10, max=50',
-36 silly registry.get     connection: 'Keep-Alive' } ]
-37 silly lockFile 5970ecdf-shouldjs-5-0-0 shouldjs@5.0.0
-38 silly lockFile 5970ecdf-shouldjs-5-0-0 shouldjs@5.0.0
-39 error 404 404 Not Found: shouldjs
-39 error 404
-39 error 404 'shouldjs' is not in the npm registry.
-39 error 404 You should bug the author to publish it
-39 error 404 It was specified as a dependency of 'drawingApp'
-39 error 404
-39 error 404 Note that you can also install from a
-39 error 404 tarball, folder, or http url, or git url.
-40 error System Darwin 14.0.0
-41 error command "node" "/usr/local/bin/npm" "install"
-42 error cwd /Users/jsalazar/Work/drawingApp
-43 error node -v v0.10.35
-44 error npm -v 1.4.28
-45 error code E404
-46 verbose exit [ 1, true ]
+4 error Error: ENOENT, open '/Users/jsalazar/Work/drawingApp/node_modules/prompt/package.json'
+5 error If you need help, you may report this *entire* log,
+5 error including the npm and node versions, at:
+5 error     <http://github.com/npm/npm/issues>
+6 error System Darwin 14.0.0
+7 error command "node" "/usr/local/bin/npm" "start" "prompt"
+8 error cwd /Users/jsalazar/Work/drawingApp
+9 error node -v v0.10.35
+10 error npm -v 1.4.28
+11 error path /Users/jsalazar/Work/drawingApp/node_modules/prompt/package.json
+12 error code ENOENT
+13 error errno 34
+14 verbose exit [ 34, true ]
