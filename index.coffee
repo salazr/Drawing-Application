@@ -1,4 +1,5 @@
 # Drawing App
+
   App = {}
   readline = require 'readline'
   PF = require 'pathfinding'
@@ -8,6 +9,8 @@
   renderCanvas = ->
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
+    App.g = new PF.Grid App.w,App.h
+
     App.ctx.clear()
     App.ctx.font = 'bold 12px sans-serif'
 
@@ -66,16 +69,9 @@
         x2 = parseInt command[3],10
         y2 = parseInt command[4],10
 
-        # init path finding grid + fnider
-        App.g = new PF.Grid(App.w,App.h)
-        App.f = new PF.BiBreadthFirstFinder()
+        drawPath x1+1,y1+1,x2+1,y2+1
 
-        path = App.f.findPath(x1+1,y1+1,x2+1,y2+1,App.g)
-
-        for p in path
-          App.ctx.fillText('x',p[0],p[1])
-
-        App.ctx.fillRect(10,10,10,10)
+        App.ctx.fillRect 10,10,10,10
         App.ctx.save()
 
       when 'R'
@@ -88,16 +84,13 @@
         y1 += 1
         y2 += 1
 
-        # init path finding grid + finder
-        App.g = new PF.Grid(App.w,App.h)
-
         # Rectangle:
         drawPath x1,y1,x2,y1
         drawPath x1,y1,x1,y2
         drawPath x2,y1,x2,y2
         drawPath x1,y2,x2,y2
 
-        App.ctx.fillRect(10,10,10,10)
+        App.ctx.fillRect 10,10,10,10
         App.ctx.save()
 
       when 'B'
@@ -105,22 +98,27 @@
         x = parseInt command[1],10
         y = parseInt command[2],10
         c = command[3]
+        x -= 1
+        y -= 2
 
         if App.g
-          # console.log App.g.nodes[]
+          # console.log App.g.nodes
         else
-          App.g = new PF.Grid(App.w,App.h)
+          App.g = new PF.Grid App.w,App.h
           # console.log App.g.nodes[1]
 
 
         for row in App.g.nodes
-          for column in row
-            # console.log App.g.isWalkableAt column.x, column.y
-            if App.g.isWalkableAt column.x, column.y
-              App.ctx.fillText(c,column.x,column.y)
-              App.g.setWalkableAt(column.x,column.y, false)
+          if row[0].y > 1 && row[0].y < App.h
+            for column in row
+              # console.log column
+              if column.x > 1 && column.x < App.w-1
+                # console.log App.g.isWalkableAt column.x, column.y
+                if App.g.isWalkableAt column.x, column.y
+                  App.ctx.fillText c,column.x,column.y
+                  App.g.setWalkableAt column.x,column.y, false
 
-        App.ctx.fillRect(10,10,10,10)
+        App.ctx.fillRect 10,10,10,10
         App.ctx.save()
 
 
