@@ -10,6 +10,7 @@
     if !App.c
       console.log "\n Please create a canvas first. \n"
       return true
+
   renderCanvas = ->
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
@@ -43,12 +44,6 @@
     for p in path
       App.ctx.fillText('x',p[0],p[1])
       App.g.setWalkableAt(p[0],p[1], false)
-      # node = {x: p[0], y: p[1]}
-      # console.log App.g.getNeighbors node, App.f.diagonalMovement
-      # for neighbor in App.g.getNeighbors node, App.f.diagonalMovement
-        # console.log neighbor
-        # if neighbor.walkable is true
-          # App.g.setWalkableAt neighbor.x,neighbor.y, false
 
   fillPath = (x, y, c) ->
     width = App.c.width - 1
