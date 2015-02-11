@@ -5,86 +5,6 @@
   PF = require 'pathfinding'
   termCanvas = require 'term-canvas'
 
-  # Helpers
-
-  # Validate input
-  _handleErrors = (command) ->
-    switch command[0]
-     when 'C'
-       if command.length < 3
-         console.log "\n Please pass the parameters needed. \n"
-         return true
-      when 'L', 'R'
-        if command.length < 5
-          console.log "\n Please pass the parameters needed. \n"
-          return true
-      when 'B'
-        if command.length < 4
-          console.log "\n Please pass the parameters needed. \n"
-          return true
-      else
-        break
-
-    if !App.c && command[0] != 'C'
-      console.log "\n Please create a canvas first. \n"
-      return true
-
-  # Initializes canvas & grid. Draws borders.
-  _renderCanvas = ->
-    App.c = new termCanvas App.w, App.h
-    App.ctx = App.c.getContext '2d'
-    App.g = new PF.Grid App.w,App.h
-
-    App.ctx.clear()
-    App.ctx.font = 'bold 12px sans-serif'
-
-    x= 0
-    while x < App.w
-      App.ctx.fillText('-',x,0)
-      App.ctx.fillText('-',x,App.h)
-      x = x+1
-
-    y= 2
-    while y < App.h
-      App.ctx.fillText('|',0,y)
-      App.ctx.fillText('|',App.w-1,y)
-      y = y+1
-
-    App.ctx.fillRect(10,10,10,10)
-    App.ctx.save()
-
-    App.ctx.resetState()
-    console.log('\n')
-
-  # Draw line paths on canvas
-  _drawPath = (x1,y1,x2,y2) ->
-    App.g = App.g.clone()
-    App.f = new PF.BiBreadthFirstFinder()
-    path = App.f.findPath(x1,y1,x2,y2,App.g)
-    for p in path
-      App.ctx.fillText('x',p[0],p[1])
-      App.g.setWalkableAt(p[0],p[1], false)
-
-  # Fill area surrounding point in grid with input provided
-  _fillPath = (x, y, c) ->
-    width = App.c.width - 1
-    height = App.c.height + 1
-
-    if !App.g.isWalkableAt x,y
-      return true
-
-    App.ctx.fillText c, x, y
-    App.g.setWalkableAt x, y, false
-
-    if x > 2
-      _fillPath x - 1, y, c
-    if y > 2
-      _fillPath x, y - 1, c
-    if x < width - 1
-      _fillPath x + 1, y, c
-    if y < height - 1
-      _fillPath x, y + 1, c
-
   class DrawingApp
 
     constructor: ->
@@ -94,6 +14,85 @@
 
       App.rl.prompt()
       @_parseInput()
+  # Helpers
+
+    # Validate input
+    _handleErrors = (command) ->
+      switch command[0]
+       when 'C'
+         if command.length < 3
+           console.log "\n Please pass the parameters needed. \n"
+           return true
+        when 'L', 'R'
+          if command.length < 5
+            console.log "\n Please pass the parameters needed. \n"
+            return true
+        when 'B'
+          if command.length < 4
+            console.log "\n Please pass the parameters needed. \n"
+            return true
+        else
+          break
+
+      if !App.c && command[0] != 'C'
+        console.log "\n Please create a canvas first. \n"
+        return true
+
+    # Initializes canvas & grid. Draws borders.
+    _renderCanvas = ->
+      App.c = new termCanvas App.w, App.h
+      App.ctx = App.c.getContext '2d'
+      App.g = new PF.Grid App.w,App.h
+
+      App.ctx.clear()
+      App.ctx.font = 'bold 12px sans-serif'
+
+      x= 0
+      while x < App.w
+        App.ctx.fillText('-',x,0)
+        App.ctx.fillText('-',x,App.h)
+        x = x+1
+
+      y= 2
+      while y < App.h
+        App.ctx.fillText('|',0,y)
+        App.ctx.fillText('|',App.w-1,y)
+        y = y+1
+
+      App.ctx.fillRect(10,10,10,10)
+      App.ctx.save()
+
+      App.ctx.resetState()
+      console.log('\n')
+
+    # Draw line paths on canvas
+    _drawPath = (x1,y1,x2,y2) ->
+      App.g = App.g.clone()
+      App.f = new PF.BiBreadthFirstFinder()
+      path = App.f.findPath(x1,y1,x2,y2,App.g)
+      for p in path
+        App.ctx.fillText('x',p[0],p[1])
+        App.g.setWalkableAt(p[0],p[1], false)
+
+    # Fill area surrounding point in grid with input provided
+    _fillPath = (x, y, c) ->
+      width = App.c.width - 1
+      height = App.c.height + 1
+
+      if !App.g.isWalkableAt x,y
+        return true
+
+      App.ctx.fillText c, x, y
+      App.g.setWalkableAt x, y, false
+
+      if x > 2
+        _fillPath x - 1, y, c
+      if y > 2
+        _fillPath x, y - 1, c
+      if x < width - 1
+        _fillPath x + 1, y, c
+      if y < height - 1
+        _fillPath x, y + 1, c
 
     _parseInput: () ->
       # read command
