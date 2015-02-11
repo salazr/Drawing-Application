@@ -1,35 +1,32 @@
 # Drawing App
   App = {}
-  readline = require('readline')
-  PF = require('pathfinding')
-  termCanvas = require('term-canvas')
+  readline = require 'readline'
+  PF = require 'pathfinding'
+  termCanvas = require 'term-canvas'
 
   # helpers
   renderCanvas = ->
-    # term canvas
-    # console.log App.w, App.h
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.ctx.clear()
 
-    App.ctx.strokeStyle = "yellow"
-    App.ctx.strokeRect(0, 0, App.c.width, App.c.height)
-    # App.ctx.strokeStyle = "black"
-    # App.ctx.stroke()
-    # App.ctx.moveTo(0, 0)
-    # App.ctx.lineTo(0, App.w+1)
-    #
-    # App.ctx.moveTo(0, App.h)
-    # App.ctx.lineTo(0, App.w)
+    x= 0
+    while x < App.w
+      App.ctx.fillText('-',x,0)
+      App.ctx.fillText('-',x,App.h)
+      x = x+1
 
+    y= 2
+    while y < App.h
+      App.ctx.fillText('|',0,y)
+      App.ctx.fillText('|',App.w-1,y)
+      y = y+1
+
+    App.ctx.fillRect(10,10,10,10)
     App.ctx.save()
 
-    # App.ctx.font = 'bold 12px sans-serif'
-    # App.ctx.fillText('x',1,1)
-    # App.ctx.stroke()
     App.ctx.resetState()
     console.log('\n')
-    # App.ctx.resetState()
 
   drawPath = (x1,y1,x2,y2) ->
     App.g = App.g.clone()
@@ -41,7 +38,7 @@
       App.g.setWalkableAt(p[0],p[1], false)
 
   # create cli-interface
-  rl = readline.createInterface(process.stdin, process.stdout)
+  rl = readline.createInterface process.stdin, process.stdout
   rl.setPrompt 'Enter command: '
 
   rl.prompt()
@@ -57,8 +54,8 @@
 
         App.w = parseInt command[1],10
         App.h = parseInt command[2],10
-        App.w = App.w + 1
-        App.h = App.h + 1
+        App.w = App.w + 2
+        App.h = App.h + 2
 
         renderCanvas()
 
