@@ -6,8 +6,24 @@
   termCanvas = require 'term-canvas'
 
   # helpers
-  handleErrors = ->
-    if !App.c
+  handleErrors = (command) ->
+    switch command[0]
+     when 'C'
+       if command.length < 3
+         console.log "\n Please pass the parameters needed. \n"
+         return true
+      when 'L', 'R'
+        if command.length < 5
+          console.log "\n Please pass the parameters needed. \n"
+          return true
+      when 'B'
+        if command.length < 4
+          console.log "\n Please pass the parameters needed. \n"
+          return true
+      else
+        break
+
+    if !App.c && command[0] != 'C'
       console.log "\n Please create a canvas first. \n"
       return true
 
@@ -78,6 +94,8 @@
     switch command[0]
 
       when 'C'
+        if !handleErrors command
+        else break
 
         App.w = parseInt command[1],10
         App.h = parseInt command[2],10
@@ -89,7 +107,7 @@
         renderCanvas()
 
       when 'L'
-        if !handleErrors()
+        if !handleErrors command
         else break
 
         x1 = parseInt command[1],10
@@ -103,7 +121,7 @@
         App.ctx.save()
 
       when 'R'
-        if !handleErrors()
+        if !handleErrors command
         else break
 
         x1 = parseInt command[1],10
@@ -124,7 +142,7 @@
         App.ctx.save()
 
       when 'B'
-        if !handleErrors()
+        if !handleErrors command
         else break
 
         x = parseInt command[1],10
