@@ -1,5 +1,8 @@
-# Drawing-Application
-A simple drawing program.
+# Drawing App.
+A simple console drawing program.
+
+# Run
+## coffee index.coffee
 
 At the moment, the program supports the following commands:
 
