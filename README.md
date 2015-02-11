@@ -2,7 +2,11 @@
 A simple console drawing program.
 
 # Run
-## coffee index.coffee
+## Program:
+### npm start
+
+## Test suite:
+### npm test
 
 At the moment, the program supports the following commands:
 
