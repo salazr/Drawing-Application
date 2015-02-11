@@ -4,6 +4,7 @@
   readline = require 'readline'
   PF = require 'pathfinding'
   termCanvas = require 'term-canvas'
+  fill = require 'flood-fill'
 
   # helpers
   handleErrors = ->
@@ -24,13 +25,18 @@
     x= 0
     while x < App.w
       App.ctx.fillText('-',x,0)
+      App.g.setWalkableAt x, 0, false
       App.ctx.fillText('-',x,App.h)
+      App.g.setWalkableAt x, App.h-1, false
       x = x+1
 
     y= 2
     while y < App.h
       App.ctx.fillText('|',0,y)
+      App.g.setWalkableAt 0, y, false
+
       App.ctx.fillText('|',App.w-1,y)
+      App.g.setWalkableAt App.w-1, y, false
       y = y+1
 
     App.ctx.fillRect(10,10,10,10)
@@ -46,6 +52,33 @@
     for p in path
       App.ctx.fillText('x',p[0],p[1])
       App.g.setWalkableAt(p[0],p[1], false)
+      # node = {x: p[0], y: p[1]}
+      # console.log App.g.getNeighbors node, App.f.diagonalMovement
+      # for neighbor in App.g.getNeighbors node, App.f.diagonalMovement
+        # console.log neighbor
+        # if neighbor.walkable is true
+          # App.g.setWalkableAt neighbor.x,neighbor.y, false
+
+  fillPath = (x, y, c) ->
+    width = App.c.width - 1
+    height = App.c.height
+
+    # console.log App.g.isWalkableAt x,y
+    if !App.g.isWalkableAt x,y
+      return true
+
+    App.ctx.fillText c, x, y
+    App.g.setWalkableAt x, y, false
+
+    if x > 1
+      fillPath x - 1, y, c
+    if y > 1
+      fillPath x, y - 1, c
+    if x < width - 1
+      fillPath x + 1, y, c
+    if y < height - 1
+      fillPath x, y + 1, c
+
 
   # create cli-interface
   rl = readline.createInterface process.stdin, process.stdout
@@ -106,25 +139,21 @@
         x = parseInt command[1],10
         y = parseInt command[2],10
         c = command[3]
-        x -= 1
-        y -= 2
+        x += 1
+        y += 1
+
+        fillPath x, y, c
 
         # Fill reminding walkable spots
-        for row in App.g.nodes
-          if row[0].y > 1 && row[0].y < App.h
-            for column in row
-              if column.x > 1 && column.x < App.w-1
-                if App.g.isWalkableAt column.x, column.y
-                  if (App.g.isWalkableAt column.x-1, column.y) && (column.x > 0)
-                    if (App.g.isWalkableAt column.x+1, column.y)
-                      if (App.g.isWalkableAt column.x, column.y-1) && (column.y > 0)
-                        # if (App.g.isWalkableAt column.x, column.y+1) && (column.y < App.h-1)
-
-                        # for neighbor in App.g.getNeighbors column, App.f.diagonalMovement
-                        #   if neighbor.walkable is true
-                        #     if neighbor.parent && neighbor.parent.walkable is false
-                              App.ctx.fillText c,column.x,column.y
-                              # App.g.setWalkableAt column.x,column.y, false
+        # for row in App.g.nodes
+        #   if row[0].y > 1 && row[0].y < App.h
+        #     for column in row
+        #       if column.x > 1 && column.x < App.w-1
+        #         if App.g.isWalkableAt column.x, column.y
+        #           if (App.g.isWalkableAt column.x-1, column.y) && (column.x > 0)
+        #             if (App.g.isWalkableAt column.x+1, column.y)
+        #               # if (App.g.isWalkableAt column.x, column.y-1) && (column.y > 0)
+        #                 App.ctx.fillText c,column.x,column.y
 
         App.ctx.fillRect 10,10,10,10
         App.ctx.save()
