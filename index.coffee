@@ -85,8 +85,6 @@
         x2 = parseInt command[3],10
         y2 = parseInt command[4],10
         # adjust for border
-        x1 -= 1
-        x2 -= 1
         y1 += 1
         y2 += 1
 
