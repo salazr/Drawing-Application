@@ -5,8 +5,10 @@
   PF = require 'pathfinding'
   termCanvas = require 'term-canvas'
 
-  # helpers
-  handleErrors = (command) ->
+  # Helpers
+
+  # Validate input
+  _handleErrors = (command) ->
     switch command[0]
      when 'C'
        if command.length < 3
@@ -27,7 +29,8 @@
       console.log "\n Please create a canvas first. \n"
       return true
 
-  renderCanvas = ->
+  # Initializes canvas & grid. Draws borders.
+  _renderCanvas = ->
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.g = new PF.Grid App.w,App.h
@@ -53,7 +56,8 @@
     App.ctx.resetState()
     console.log('\n')
 
-  drawPath = (x1,y1,x2,y2) ->
+  # Draw line paths on canvas
+  _drawPath = (x1,y1,x2,y2) ->
     App.g = App.g.clone()
     App.f = new PF.BiBreadthFirstFinder()
     path = App.f.findPath(x1,y1,x2,y2,App.g)
@@ -61,7 +65,8 @@
       App.ctx.fillText('x',p[0],p[1])
       App.g.setWalkableAt(p[0],p[1], false)
 
-  fillPath = (x, y, c) ->
+  # Fill area surrounding point in grid with input provided
+  _fillPath = (x, y, c) ->
     width = App.c.width - 1
     height = App.c.height + 1
 
@@ -72,101 +77,106 @@
     App.g.setWalkableAt x, y, false
 
     if x > 2
-      fillPath x - 1, y, c
+      _fillPath x - 1, y, c
     if y > 2
-      fillPath x, y - 1, c
+      _fillPath x, y - 1, c
     if x < width - 1
-      fillPath x + 1, y, c
+      _fillPath x + 1, y, c
     if y < height - 1
-      fillPath x, y + 1, c
+      _fillPath x, y + 1, c
 
-  # create cli-interface
-  rl = readline.createInterface process.stdin, process.stdout
-  rl.setPrompt 'Enter command: '
+  class DrawingApp
 
-  rl.prompt()
+    constructor: ->
+      # create cli-interface
+      rl = readline.createInterface process.stdin, process.stdout
+      rl.setPrompt 'Enter command: '
 
-  rl.on('line', (l) ->
-    # read command
-    command = l.trim()
-    command = command.split(/[ ,]+/)
+      rl.prompt()
 
-    switch command[0]
+      # read command
+      rl.on('line', (l) ->
+        command = l.trim()
+        command = command.split(/[ ,]+/)
 
-      when 'C'
-        if !handleErrors command
-        else break
+        switch command[0]
 
-        App.w = parseInt command[1],10
-        App.h = parseInt command[2],10
+          when 'C'
+            if !_handleErrors command
+            else break
 
-        # adjust for borders
-        App.w = App.w + 2
-        App.h = App.h + 2
+            App.w = parseInt command[1],10
+            App.h = parseInt command[2],10
 
-        renderCanvas()
+            # adjust for borders
+            App.w = App.w + 2
+            App.h = App.h + 2
 
-      when 'L'
-        if !handleErrors command
-        else break
+            _renderCanvas()
 
-        x1 = parseInt command[1],10
-        y1 = parseInt command[2],10
-        x2 = parseInt command[3],10
-        y2 = parseInt command[4],10
+          when 'L'
+            if !_handleErrors command
+            else break
 
-        drawPath x1+1,y1+1,x2+1,y2+1
+            x1 = parseInt command[1],10
+            y1 = parseInt command[2],10
+            x2 = parseInt command[3],10
+            y2 = parseInt command[4],10
 
-        App.ctx.fillRect 10,10,10,10
-        App.ctx.save()
+            _drawPath x1+1,y1+1,x2+1,y2+1
 
-      when 'R'
-        if !handleErrors command
-        else break
+            App.ctx.fillRect 10,10,10,10
+            App.ctx.save()
 
-        x1 = parseInt command[1],10
-        y1 = parseInt command[2],10
-        x2 = parseInt command[3],10
-        y2 = parseInt command[4],10
+          when 'R'
+            if !_handleErrors command
+            else break
 
-        # adjust for borders
-        y1 += 1
-        y2 += 1
+            x1 = parseInt command[1],10
+            y1 = parseInt command[2],10
+            x2 = parseInt command[3],10
+            y2 = parseInt command[4],10
 
-        drawPath x1,y1,x2,y1
-        drawPath x1,y1,x1,y2
-        drawPath x2,y1,x2,y2
-        drawPath x1,y2,x2,y2
+            # adjust for borders
+            y1 += 1
+            y2 += 1
 
-        App.ctx.fillRect 10,10,10,10
-        App.ctx.save()
+            _drawPath x1,y1,x2,y1
+            _drawPath x1,y1,x1,y2
+            _drawPath x2,y1,x2,y2
+            _drawPath x1,y2,x2,y2
 
-      when 'B'
-        if !handleErrors command
-        else break
+            App.ctx.fillRect 10,10,10,10
+            App.ctx.save()
 
-        x = parseInt command[1],10
-        y = parseInt command[2],10
-        c = command[3]
-        x += 1
-        y += 1
+          when 'B'
+            if !_handleErrors command
+            else break
 
-        fillPath x, y, c
+            x = parseInt command[1],10
+            y = parseInt command[2],10
+            c = command[3]
+            x += 1
+            y += 1
 
-        App.ctx.fillRect 10,10,10,10
-        App.ctx.save()
+            _fillPath x, y, c
 
-      when 'Q'
+            App.ctx.fillRect 10,10,10,10
+            App.ctx.save()
+
+          when 'Q'
+            process.exit 0
+
+          else
+            console.log '\n `' + command[0] + '` is not a supported command. \n'
+            break
+
+        rl.prompt()
+        return
+      ).on 'close', ->
         process.exit 0
+        return
 
-      else
-        console.log '\n `' + command[0] + '` is not a supported command. \n'
-        break
+        # ---
 
-    rl.prompt()
-    return
-  ).on 'close', ->
-    process.exit 0
-    return
-
-  # ---
+   new DrawingApp

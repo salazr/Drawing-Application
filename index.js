@@ -10,10 +10,33 @@
 
   termCanvas = require('term-canvas');
 
-  handleErrors = function() {
-    if (!App.c) {
+  handleErrors = function(command) {
+    switch (command[0]) {
+      case 'C':
+        if (command.length < 3) {
+          console.log("\n Please pass the parameters needed. \n");
+          return true;
+        }
+        break;
+      case 'L':
+      case 'R':
+        if (command.length < 5) {
+          console.log("\n Please pass the parameters needed. \n");
+          return true;
+        }
+        break;
+      case 'B':
+        if (command.length < 4) {
+          console.log("\n Please pass the parameters needed. \n");
+          return true;
+        }
+        break;
+      default:
+        break;
+    }
+    if (!App.c && command[0] !== 'C') {
       console.log("\n Please create a canvas first. \n");
-      return false;
+      return true;
     }
   };
 
@@ -91,6 +114,11 @@
     command = command.split(/[ ,]+/);
     switch (command[0]) {
       case 'C':
+        if (!handleErrors(command)) {
+
+        } else {
+          break;
+        }
         App.w = parseInt(command[1], 10);
         App.h = parseInt(command[2], 10);
         App.w = App.w + 2;
@@ -98,6 +126,11 @@
         renderCanvas();
         break;
       case 'L':
+        if (!handleErrors(command)) {
+
+        } else {
+          break;
+        }
         x1 = parseInt(command[1], 10);
         y1 = parseInt(command[2], 10);
         x2 = parseInt(command[3], 10);
@@ -107,6 +140,11 @@
         App.ctx.save();
         break;
       case 'R':
+        if (!handleErrors(command)) {
+
+        } else {
+          break;
+        }
         x1 = parseInt(command[1], 10);
         y1 = parseInt(command[2], 10);
         x2 = parseInt(command[3], 10);
@@ -121,6 +159,11 @@
         App.ctx.save();
         break;
       case 'B':
+        if (!handleErrors(command)) {
+
+        } else {
+          break;
+        }
         x = parseInt(command[1], 10);
         y = parseInt(command[2], 10);
         c = command[3];

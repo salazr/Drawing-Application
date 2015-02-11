@@ -9,7 +9,9 @@
   "dependencies": {
     "readline":"0.0.7",
     "pathfinding": "0.4.16",
-    "term-canvas": "0.0.5"
+    "term-canvas": "0.0.5",
+    "mocha": "2.1.0",
+    "should": "5.0.0"
   },
   "author": "josue <salazr@me.com>",
   "license": "ISC"
