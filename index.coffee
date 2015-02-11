@@ -4,7 +4,6 @@
   readline = require 'readline'
   PF = require 'pathfinding'
   termCanvas = require 'term-canvas'
-  fill = require 'flood-fill'
 
   # helpers
   handleErrors = ->
