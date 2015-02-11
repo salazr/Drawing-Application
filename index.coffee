@@ -24,18 +24,13 @@
     x= 0
     while x < App.w
       App.ctx.fillText('-',x,0)
-      App.g.setWalkableAt x, 0, false
       App.ctx.fillText('-',x,App.h)
-      App.g.setWalkableAt x, App.h-1, false
       x = x+1
 
     y= 2
     while y < App.h
       App.ctx.fillText('|',0,y)
-      App.g.setWalkableAt 0, y, false
-
       App.ctx.fillText('|',App.w-1,y)
-      App.g.setWalkableAt App.w-1, y, false
       y = y+1
 
     App.ctx.fillRect(10,10,10,10)
@@ -60,7 +55,7 @@
 
   fillPath = (x, y, c) ->
     width = App.c.width - 1
-    height = App.c.height
+    height = App.c.height + 1
 
     # console.log App.g.isWalkableAt x,y
     if !App.g.isWalkableAt x,y
@@ -69,9 +64,9 @@
     App.ctx.fillText c, x, y
     App.g.setWalkableAt x, y, false
 
-    if x > 1
+    if x > 2
       fillPath x - 1, y, c
-    if y > 1
+    if y > 2
       fillPath x, y - 1, c
     if x < width - 1
       fillPath x + 1, y, c
