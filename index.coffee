@@ -30,6 +30,7 @@
     App.ctx.resetState()
     console.log('\n')
     # App.ctx.resetState()
+
   drawPath = (x1,y1,x2,y2) ->
     App.g = App.g.clone()
     App.f = new PF.BiBreadthFirstFinder()
@@ -80,7 +81,6 @@
         App.ctx.fillRect(10,10,10,10)
         App.ctx.save()
 
-
       when 'R'
 
         x1 = parseInt command[1],10
@@ -99,8 +99,6 @@
 
         App.ctx.fillRect(10,10,10,10)
         App.ctx.save()
-
-
 
       when 'B'
 
