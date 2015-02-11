@@ -115,13 +115,16 @@
             for column in row
               if column.x > 1 && column.x < App.w-1
                 if App.g.isWalkableAt column.x, column.y
-                  if App.g.isWalkableAt column.x-1, column.y
-                    if App.g.isWalkableAt column.x+1, column.y
-                  # for neighbor in App.g.getNeighbors column, App.f.diagonalMovement
-                  #   if neighbor.walkable is true
-                  #     if neighbor.parent && neighbor.parent.walkable is false
-                        App.ctx.fillText c,column.x,column.y
-                        # App.g.setWalkableAt column.x,column.y, false
+                  if (App.g.isWalkableAt column.x-1, column.y) && (column.x > 0)
+                    if (App.g.isWalkableAt column.x+1, column.y)
+                      if (App.g.isWalkableAt column.x, column.y-1) && (column.y > 0)
+                        # if (App.g.isWalkableAt column.x, column.y+1) && (column.y < App.h-1)
+
+                        # for neighbor in App.g.getNeighbors column, App.f.diagonalMovement
+                        #   if neighbor.walkable is true
+                        #     if neighbor.parent && neighbor.parent.walkable is false
+                              App.ctx.fillText c,column.x,column.y
+                              # App.g.setWalkableAt column.x,column.y, false
 
         App.ctx.fillRect 10,10,10,10
         App.ctx.save()
