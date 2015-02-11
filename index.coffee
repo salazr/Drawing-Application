@@ -69,7 +69,7 @@
         App.g = new PF.Grid(App.w,App.h)
         App.f = new PF.BiBreadthFirstFinder()
 
-        path = App.f.findPath(x1,y1,x2,y2,App.g)
+        path = App.f.findPath(x1+1,y1+1,x2+1,y2+1,App.g)
 
         for p in path
           App.ctx.font = 'bold 12px sans-serif'
@@ -84,6 +84,11 @@
         y1 = parseInt command[2],10
         x2 = parseInt command[3],10
         y2 = parseInt command[4],10
+        # adjust for border
+        x1 -= 1
+        x2 -= 1
+        y1 += 1
+        y2 += 1
 
         # init path finding grid + finder
         App.g = new PF.Grid(App.w,App.h)
