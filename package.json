@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "coffee index.coffee prompt",
-    "test": "mocha  mocha test/test.coffee --compilers coffee:coffee-script/register"
+    "test": "mocha test/test.coffee --compilers coffee:coffee-script/register"
   },
   "dependencies": {
+    "coffee-script": "^1.9.0",
     "readline":"0.0.7",
     "pathfinding": "0.4.16",
     "term-canvas": "0.0.5",
