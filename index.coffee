@@ -9,6 +9,8 @@
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.ctx.clear()
+    App.ctx.font = 'bold 12px sans-serif'
+
 
     x= 0
     while x < App.w
@@ -33,7 +35,6 @@
     App.f = new PF.BiBreadthFirstFinder()
     path = App.f.findPath(x1,y1,x2,y2,App.g)
     for p in path
-      App.ctx.font = 'bold 12px sans-serif'
       App.ctx.fillText('x',p[0],p[1])
       App.g.setWalkableAt(p[0],p[1], false)
 
@@ -72,7 +73,6 @@
         path = App.f.findPath(x1+1,y1+1,x2+1,y2+1,App.g)
 
         for p in path
-          App.ctx.font = 'bold 12px sans-serif'
           App.ctx.fillText('x',p[0],p[1])
 
         App.ctx.fillRect(10,10,10,10)
@@ -117,7 +117,6 @@
           for column in row
             # console.log App.g.isWalkableAt column.x, column.y
             if App.g.isWalkableAt column.x, column.y
-              App.ctx.font = 'bold 12px sans-serif'
               App.ctx.fillText(c,column.x,column.y)
               App.g.setWalkableAt(column.x,column.y, false)
 
