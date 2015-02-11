@@ -14,8 +14,8 @@
 
       App.rl.prompt()
       @_parseInput()
-  # Helpers
 
+    # Helpers
     # Validate input
     _handleErrors = (command) ->
       switch command[0]
@@ -94,6 +94,7 @@
       if y < height - 1
         _fillPath x, y + 1, c
 
+    # Parse command line input
     _parseInput: () ->
       # read command
       App.rl.on('line', (l) ->
