@@ -89,13 +89,15 @@
 
     constructor: ->
       # create cli-interface
-      rl = readline.createInterface process.stdin, process.stdout
-      rl.setPrompt 'Enter command: '
+      App.rl = readline.createInterface process.stdin, process.stdout
+      App.rl.setPrompt 'Enter command: '
 
-      rl.prompt()
+      App.rl.prompt()
+      @_parseInput()
 
+    _parseInput: () ->
       # read command
-      rl.on('line', (l) ->
+      App.rl.on('line', (l) ->
         command = l.trim()
         command = command.split(/[ ,]+/)
 
@@ -171,7 +173,7 @@
             console.log '\n `' + command[0] + '` is not a supported command. \n'
             break
 
-        rl.prompt()
+        App.rl.prompt()
         return
       ).on 'close', ->
         process.exit 0
