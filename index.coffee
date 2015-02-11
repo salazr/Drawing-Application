@@ -1,4 +1,4 @@
-# Drawing App
+# Drawing App.
 
   App = {}
   readline = require 'readline'
@@ -9,17 +9,14 @@
   handleErrors = ->
     if !App.c
       console.log "\n Please create a canvas first. \n"
-      return false
-
+      return true
   renderCanvas = ->
     App.c = new termCanvas App.w, App.h
     App.ctx = App.c.getContext '2d'
     App.g = new PF.Grid App.w,App.h
 
-
     App.ctx.clear()
     App.ctx.font = 'bold 12px sans-serif'
-
 
     x= 0
     while x < App.w
@@ -57,7 +54,6 @@
     width = App.c.width - 1
     height = App.c.height + 1
 
-    # console.log App.g.isWalkableAt x,y
     if !App.g.isWalkableAt x,y
       return true
 
@@ -73,7 +69,6 @@
     if y < height - 1
       fillPath x, y + 1, c
 
-
   # create cli-interface
   rl = readline.createInterface process.stdin, process.stdout
   rl.setPrompt 'Enter command: '
@@ -81,7 +76,7 @@
   rl.prompt()
 
   rl.on('line', (l) ->
-    # grab command
+    # read command
     command = l.trim()
     command = command.split(/[ ,]+/)
 
@@ -91,6 +86,7 @@
 
         App.w = parseInt command[1],10
         App.h = parseInt command[2],10
+
         # adjust for borders
         App.w = App.w + 2
         App.h = App.h + 2
@@ -98,6 +94,8 @@
         renderCanvas()
 
       when 'L'
+        if !handleErrors()
+        else break
 
         x1 = parseInt command[1],10
         y1 = parseInt command[2],10
@@ -110,6 +108,8 @@
         App.ctx.save()
 
       when 'R'
+        if !handleErrors()
+        else break
 
         x1 = parseInt command[1],10
         y1 = parseInt command[2],10
@@ -129,6 +129,8 @@
         App.ctx.save()
 
       when 'B'
+        if !handleErrors()
+        else break
 
         x = parseInt command[1],10
         y = parseInt command[2],10
@@ -137,17 +139,6 @@
         y += 1
 
         fillPath x, y, c
-
-        # Fill reminding walkable spots
-        # for row in App.g.nodes
-        #   if row[0].y > 1 && row[0].y < App.h
-        #     for column in row
-        #       if column.x > 1 && column.x < App.w-1
-        #         if App.g.isWalkableAt column.x, column.y
-        #           if (App.g.isWalkableAt column.x-1, column.y) && (column.x > 0)
-        #             if (App.g.isWalkableAt column.x+1, column.y)
-        #               # if (App.g.isWalkableAt column.x, column.y-1) && (column.y > 0)
-        #                 App.ctx.fillText c,column.x,column.y
 
         App.ctx.fillRect 10,10,10,10
         App.ctx.save()
