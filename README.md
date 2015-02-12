@@ -8,6 +8,8 @@ A simple console drawing program.
 ## Test suite:
 ### npm test
 
+
+
 At the moment, the program supports the following commands:
 
 C w h
@@ -29,7 +31,15 @@ Should quit the program.
 ### Sample I/O:
 
 C 20 4
+
+
 L 1 2 6 4
+
+
 L 6 3 6 4
+
+
 R 16 1 20 3
+
+
 B 10 3 o
