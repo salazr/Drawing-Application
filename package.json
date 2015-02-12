@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "coffee index.coffee prompt",
-    "test": "mocha test/test.coffee --compilers coffee:coffee-script/register"
+    "test": "mocha -d test/test.coffee --compilers coffee:coffee-script/register"
   },
   "dependencies": {
     "coffee-script": "^1.9.0",
@@ -13,7 +13,7 @@
     "pathfinding": "0.4.16",
     "term-canvas": "0.0.5",
     "mocha": "2.1.0",
-    "chai": "2.0.0"
+    "should": "5.0.0"
   },
   "author": "josue <salazr@me.com>",
   "license": "ISC"
